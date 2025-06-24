@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dark Psychology Script Generator</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    textarea, input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #444;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #666;
+    }
+    #response {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      border: 1px solid #555;
+      padding: 15px;
+      background-color: #1e1e1e;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Dark Psychology Script Generator</h1>
+  <p>Apna sawaal likho, AI jawab dega:</p>
+  <textarea id="prompt" rows="4" placeholder="Mujhe dark psychology script chahiye jo..."></textarea>
+  <button onclick="generate()">Generate Script</button>
+  <div id="response">🔮 Yahan result aayega...</div>
+
+  <script>
+    async function generate() {
+      const prompt = document.getElementById('prompt').value;
+      const responseDiv = document.getElementById('response');
+      responseDiv.innerText = "⏳ Generating...";
+
+      const apiKey = "sk-proj-..."; // 🔒 Apni OpenAI API key yahan daalein
+
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + apiKey
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.8
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.choices && data.choices.length > 0) {
+        responseDiv.innerText = "📝 " + data.choices[0].message.content.trim();
+      } else {
+        responseDiv.innerText = "❌ Koi response nahi mila. API key sahi hai kya?";
+      }
+    }
+  </script>
+</body>
+</html>
